@@ -1,23 +1,21 @@
 package com.example.demo.controller;
 
-import com.example.demo.service.serviceImpl.CompanyServiceImpl;
-import com.example.demo.entity.Company;
+import com.example.demo.entity.User;
+import com.example.demo.service.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import java.util.Map;
 
 @Controller
-public class CompanyController {
-
-
+public class LoginController {
     @Autowired
-    CompanyServiceImpl companyServiceImpl;
-    @RequestMapping("/getCompany")
+    UserServiceImpl userServiceImpl;
     @ResponseBody
-    public List<Company> getcompany(){
-        return companyServiceImpl.getcompany();
+    @RequestMapping("/login")
+    public Map<String, Object> login(User user) {
+        return userServiceImpl.getUsers(user);
     }
 }
