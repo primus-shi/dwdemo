@@ -8,15 +8,15 @@
 </head>
 <body>
 
-<button class="layui-btn" onclick="location.href='lbtadd.html'">添加新的轮播图
+<button class="layui-btn" onclick="location.href='companyadd.html'">添加新公司信息
     <i class="layui-icon" style="font-size: 20px; color: #1E9FFF;">&#xe61f;</i>
 </button>
 
 <div class="layui-form-item">
-    <label class="layui-form-label">输入轮播图的id</label>
+    <label class="layui-form-label">输入公司名称</label>
     <div class="layui-input-block">
         <input id="namesearch" type="text" name="title" required  lay-verify="required"
-               placeholder="请输入轮播图的id" autocomplete="off" class="layui-input">
+               placeholder="请输入公司名称" autocomplete="off" class="layui-input">
     </div>
 </div>
 
@@ -37,18 +37,18 @@
             var $ = layui.$;
 
             table.render({
-               id:"lbttable",
+               id:"companytable",
                elem:"#demo",
-               url:"/getAllLbt",
+               url:"/getAllCompany",
                page:true,
                cols:[[
                    {field: 'id', title: '编号'},
-                   {field: 'imgPath',
-                    title: '轮播图',
-                    templet: '<div><img src="{{d.imgPath}}" style="height: 40px;width: 40px" /></div>'
-                   },
-                   {fixed:'right',align:'center',toolbar:"#barDemo"}
-
+                   {field: 'name', title: '公司名称'},
+                   {field: 'bak', title: '公司简介'},
+                   {field: 'tel', title: '电话'},
+                   {field: 'email', title: '邮箱'},
+                   {field: 'address', title: '地址'},
+                   {fixed:'right',align:'center',toolbar:"#barDemo",title: '操作'}
                ]]
 
             });
@@ -58,7 +58,7 @@
             //对输入框添加搜索功能：输入框的内容发生改变时执行的事件
             $("#namesearch").change(function(){
                 var t = $(this).val()   //输入框的内容
-                table.reload("lbttable",{
+                table.reload("companytable",{
                         where:{
                             likeName:t
                         }
@@ -77,7 +77,7 @@
                         layer.close(index);
                         //向服务端发送删除指令
                         $.ajax({
-                            url: "/delLbt",
+                            url: "/delCompany",
                             type: "get",
                             data:{
                                 id:data.id
@@ -91,14 +91,20 @@
                 } else if(layEvent === 'edit'){ //编辑
                     layer.open({
                         type:2,
-                        content:"lbtupdate.html",
-                        title:"编辑轮播图信息",
+                        content:"companyupdate.html",
+                        title:"编辑公司信息",
                         area:["80%","80%"],
                         success: function(layero, index){
                         //   弹框成功后，执行的方法
                        var body = layer.getChildFrame('body', index);
                        body.find("input[name='id']").val(data.id);
-                       body.find("img").prop("src",data.imgPath);
+                         body.find("input[name='name']").val(data.name);
+                        body.find("input[name='bak']").val(data.bak);
+                        body.find("input[name='tel']").val(data.tel);
+                        body.find("input[name='email']").val(data.email);
+                        body.find("input[name='address']").val(data.address);
+
+
                         }
                     })
                 }

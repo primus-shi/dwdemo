@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>登录</title>
     <script src="/lib/jquery/jquery.js"> </script>
-    <script src="layuiadmin/layui/layui.js"></script>
-    <link rel="stylesheet" href="layuiadmin/layui/css/layui.css" media="all">
+    <script src="/houtai/layuiadmin/layui/layui.js"></script>
+    <link rel="stylesheet" href="/houtai/layuiadmin/layui/css/layui.css" media="all">
 
     <style>
         * {
@@ -153,7 +153,7 @@
                     //用户名和密码输入的是正确的
                        layer.msg(res.msg,function(){
                            sessionStorage.setItem("username",username)
-                           window.location.href = 'index.html'
+                           window.location.href = '/houtai/index.html'
                        })
 
                    }else{

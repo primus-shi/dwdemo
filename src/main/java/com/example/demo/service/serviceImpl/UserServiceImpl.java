@@ -24,4 +24,28 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+    @Override
+    public Map<String, Object> getUserByPages(String pages, String size) {
+        int page = Integer.parseInt(pages);
+        int pageSize = Integer.parseInt(size);
+      List<User> users= userMapper.getUserByPages((page-1)*pageSize, pageSize);
+      int count = userMapper.getAllUSerCount();
+      return Result.success("",count,users);
+    }
+
+    @Override
+    public Map<String, Object> updateUser(User user) {
+        userMapper.updateUser(user);
+
+
+      return   Result.success("修改成功");
+    }
+
+    @Override
+    public Map<String, Object> addUsers(User user) {
+
+        userMapper.addUsers(user);
+        return Result.success("添加成功");
+    }
 }

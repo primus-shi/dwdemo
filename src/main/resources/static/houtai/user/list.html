@@ -8,15 +8,15 @@
 </head>
 <body>
 
-<button class="layui-btn" onclick="location.href='lbtadd.html'">添加新的轮播图
+<button class="layui-btn" onclick="location.href='useradd.html'">添加新用户
     <i class="layui-icon" style="font-size: 20px; color: #1E9FFF;">&#xe61f;</i>
 </button>
 
 <div class="layui-form-item">
-    <label class="layui-form-label">输入轮播图的id</label>
+    <label class="layui-form-label">输入用户名</label>
     <div class="layui-input-block">
         <input id="namesearch" type="text" name="title" required  lay-verify="required"
-               placeholder="请输入轮播图的id" autocomplete="off" class="layui-input">
+               placeholder="请输入用户名" autocomplete="off" class="layui-input">
     </div>
 </div>
 
@@ -37,18 +37,19 @@
             var $ = layui.$;
 
             table.render({
-               id:"lbttable",
+               id:"usertable",
                elem:"#demo",
-               url:"/getAllLbt",
+               url:"/getAllUser",
+                limits:[1,2],
                page:true,
                cols:[[
                    {field: 'id', title: '编号'},
-                   {field: 'imgPath',
-                    title: '轮播图',
-                    templet: '<div><img src="{{d.imgPath}}" style="height: 40px;width: 40px" /></div>'
-                   },
+                   {field: 'username', title: '用户名'},
+                   {field: 'password', title: '密码'},
+                   {field: 'sex', title: '性别'},
+                   {field: 'hobby', title: '爱好'},
+                   {field: 'phone', title: '电话'},
                    {fixed:'right',align:'center',toolbar:"#barDemo"}
-
                ]]
 
             });
@@ -58,7 +59,7 @@
             //对输入框添加搜索功能：输入框的内容发生改变时执行的事件
             $("#namesearch").change(function(){
                 var t = $(this).val()   //输入框的内容
-                table.reload("lbttable",{
+                table.reload("usertable",{
                         where:{
                             likeName:t
                         }
@@ -77,7 +78,7 @@
                         layer.close(index);
                         //向服务端发送删除指令
                         $.ajax({
-                            url: "/delLbt",
+                            url: "/delUser",
                             type: "get",
                             data:{
                                 id:data.id
@@ -91,14 +92,24 @@
                 } else if(layEvent === 'edit'){ //编辑
                     layer.open({
                         type:2,
-                        content:"lbtupdate.html",
-                        title:"编辑轮播图信息",
+                        content:"userupdate.html",
+                        title:"编辑用户",
                         area:["80%","80%"],
                         success: function(layero, index){
                         //   弹框成功后，执行的方法
                        var body = layer.getChildFrame('body', index);
-                       body.find("input[name='id']").val(data.id);
-                       body.find("img").prop("src",data.imgPath);
+                        body.find("input[name='username']").val(data.username);
+                        body.find("input[name='password']").val(data.password);
+                        body.find("input[name='repassword']").val(data.password);
+                        body.find("input[name='phone']").val(data.phone);
+                        body.find("input[name='id']").val(data.id);
+                        //性别的回显
+                        body.find(`input[name='sex'][value='${data.sex}']`).prop("checked","true");
+                        //爱好的回显（多选框）
+                        var hobby_array = data.hobby.split(",");
+                        hobby_array.forEach(function(item){
+                            body.find(`input[type='checkbox'][title='${item}']`).prop("checked","true");
+                        });
                         }
                     })
                 }

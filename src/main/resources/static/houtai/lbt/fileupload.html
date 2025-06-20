@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/houtai/layuiadmin/layui/css/layui.css">
+    <script src="/houtai/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+
+<button type="button" class="layui-btn" id="test1">
+    <i class="layui-icon">&#xe67c;</i>上传图片
+</button>
+<img id="img" style="width: 150px;height: 150px">
+
+<script src="/static/build/layui.js"></script>
+<script>
+    layui.use('upload', function(){
+        var upload = layui.upload;
+        var $ = layui.$;
+
+        //执行实例
+        var uploadInst = upload.render({
+            elem: '#test1' //绑定元素
+            ,url: '/fileUpload' //上传接口
+            ,done: function(res){
+                //上传完毕回调
+                console.log(res)
+                $("#img").attr("src",res.msg)
+
+            }
+        });
+    });
+</script>
+
+
+</body>
+</html>

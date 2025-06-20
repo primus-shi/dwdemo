@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加新用户</title>
+    <link rel="stylesheet" href="/houtai/layuiadmin/layui/css/layui.css">
+    <script src="/houtai/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+    <form class="layui-form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+        <input type="hidden" name="id">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">公司名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name"  lay-verify="required" placeholder="请输入公司名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">公司简介</label>
+            <div class="layui-input-block">
+                <input type="text" name="bak"  lay-verify="required" placeholder="请输入公司简介" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">电话</label>
+            <div class="layui-input-block">
+                <input type="text" name="tel"  lay-verify="required" placeholder="请输入公司电话" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-block">
+                <input type="text" name="email"  lay-verify="required" placeholder="请输入公司邮箱" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">地址</label>
+            <div class="layui-input-block">
+                <input type="text" name="address"  lay-verify="required" placeholder="请输入公司地址" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <button id="backbtn"  class="layui-btn layui-btn-primary">返回列表页</button>
+            </div>
+        </div>
+    </form>
+
+
+<script>
+    layui.use(["table","form","layer"],function(){
+        var table = layui.table;
+        var $ = layui.$;
+        var form = layui.form;
+        var layer = layui.layer;
+
+        $("#backbtn").click(function(){
+
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index); //再执行关闭
+            parent.layui.table.reload("companytable");//将父页面中的表格中的数据重新加载
+
+
+            return false
+        }),
+        form.on("submit(formDemo)",function(data){
+            debugger;
+            var field = data.field;  //表单中所填写的数据
+            $.ajax({
+                url:"/updateCompany",
+                type:"post",
+                data:field,
+                success:function(res){
+                    layer.msg(res.msg,function(index){
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+                        parent.layui.table.reload("companytable");//将父页面中的表格中的数据重新加载
+                    })
+                }
+            })
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        })
+ })
+
+</script>
+</body>
+</html>

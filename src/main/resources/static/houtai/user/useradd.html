@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加新用户</title>
+    <link rel="stylesheet" href="/houtai/layuiadmin/layui/css/layui.css">
+    <script src="/houtai/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+    <form class="layui-form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="username"  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-inline">
+                <input id="password" type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">确认密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="repassword" required lay-verify="pwd" placeholder="请再次输入密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机号码</label>
+            <div class="layui-input-block">
+                <input type="text" name="phone" required  lay-verify="phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="男" title="男">
+                <input type="radio" name="sex" value="女" title="女">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">爱好</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="like[song]" title="唱">
+                <input type="checkbox" name="like[jump]" title="跳" >
+                <input type="checkbox" name="like[rap]" title="rap">
+                <input type="checkbox" name="like[basketball]" title="篮球">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <button id="backbtn"  class="layui-btn layui-btn-primary">返回列表页</button>
+            </div>
+        </div>
+    </form>
+
+
+<script>
+    layui.use(["table","form","layer"],function(){
+        var table = layui.table;
+        var $ = layui.$;
+        var form = layui.form;
+        var layer = layui.layer;
+
+        $("#backbtn").click(function(){
+            location.href = "/houtai/user/list.html"
+            return false
+        }),
+        //表单的自定义验证，针对再次输入密码的验证
+        form.verify({
+            pwd:function(value,item){
+            //    value内容就是该输入框的值，“再次输入密码”框中的值
+              var psd = $("#password").val()
+              if(value != psd){
+                  return "两次输入的密码不一致";
+              }
+            }
+        }),
+        form.on("submit(formDemo)",function(data){
+            // console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            var aihao = [];
+            $("input[type='checkbox']:checked").each(function(index,item){
+                var title = item.title;
+                aihao.push(title);
+            })
+           var aihao_str = aihao.join(',');
+            var field = data.field;  //表单中所填写的数据
+            field['hobby'] = aihao_str; // 将爱好的这个字符串放到表单的js对象中
+            console.log("filed",field);
+            $.ajax({
+                url:"/addUser",
+                type:"post",
+                data:field,
+                success:function(res){
+                    layer.msg(res.msg,function(index){
+                        //do something
+                        location.href = "/houtai/user/list.html"
+                        layer.close(index);
+                    })
+                }
+            })
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        })
+ })
+
+</script>
+</body>
+</html>

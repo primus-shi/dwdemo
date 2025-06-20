@@ -69,11 +69,9 @@
 
 </header>
 <div class="am-slider am-slider-default" data-am-flexslider="{playAfterPaused: 8000}">
-    <ul class="am-slides">
-        <li><img src="images/banner.jpg" alt="" ></li>
-        <li><img src="images/banner.jpg" alt="" ></li>
-        <li><img src="images/banner.jpg" alt="" ></li>
-        <li><img src="images/banner.jpg" alt="" ></li>
+    <ul class="am-slides" id="lb" >
+
+
     </ul>
 </div>
 
@@ -233,6 +231,20 @@
         $("#email").text(data[0].email);
         $("#address").text(data[0].address);
     });
+    function  lunbo(){
+        $.ajax({
+            url: 'getLb',
+            type: 'GET',
+            async: false,
+            success: function (data) {
+               console.log(data.data[0].imgPath);
+               for(i=0;i<data.data.length;i++){
+                   $("#lb").append("<li><img src='"+data.data[i].imgPath+"' style='height: 300px' ></li>");
+                }
+            },
+        })
+    }
+    lunbo();
 </script>
 </body>
 </html>
