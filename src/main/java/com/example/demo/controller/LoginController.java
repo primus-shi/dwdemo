@@ -16,6 +16,7 @@ public class LoginController {
     @ResponseBody
     @RequestMapping("/login")
     public Map<String, Object> login(User user) {
+
         return userServiceImpl.getUsers(user);
     }
 }

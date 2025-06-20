@@ -35,11 +35,7 @@
     </div>
     </div>
 </form>
-
-
-
-
-
+</body>
 <script>
     layui.use(["table","form","layer","upload"],function(){
         var table = layui.table;
@@ -61,38 +57,27 @@
             }
         });
 
-
-
         $("#backbtn").click(function(){
             location.href = "/houtai/lbt/list.html"
             return false
         }),
 
-
-        //获取图片的存放的路径
-       form.on('submit(formDemo)', function(data) {
-           debugger;
-            $.ajax({
-                url: "/addLbt",
-                data:data.field,
-                success:function(res){
-                    //返回到lbt的list页面，已经提示添加成功
-                    layer.msg(res.msg,function(index){
-                        //do something
-                        location.href = "/houtai/lbt/list.html"
-                        layer.close(index);
-                    })
-                }
-
-
+            //获取图片的存放的路径
+            form.on('submit(formDemo)', function(data) {
+                $.ajax({
+                    url: "/addLbt",
+                    data:data.field,
+                    success:function(res){
+                        //返回到lbt的list页面，已经提示添加成功
+                        layer.msg(res.msg,function(index){
+                            //do something
+                            location.href = "/houtai/lbt/list.html"
+                            layer.close(index);
+                        })
+                    }
+                })
+                return false;
             })
-
-            return false;
-
-        })
-
-
-    });
+    })
 </script>
-</body>
 </html>

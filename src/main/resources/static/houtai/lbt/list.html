@@ -48,9 +48,7 @@
                     templet: '<div><img src="{{d.imgPath}}" style="height: 40px;width: 40px" /></div>'
                    },
                    {fixed:'right',align:'center',toolbar:"#barDemo"}
-
                ]]
-
             });
 
 
@@ -78,7 +76,7 @@
                         //向服务端发送删除指令
                         $.ajax({
                             url: "/delLbt",
-                            type: "get",
+                            type: "delete",
                             data:{
                                 id:data.id
                             },

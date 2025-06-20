@@ -238,7 +238,7 @@
             async: false,
             success: function (data) {
                console.log(data.data[0].imgPath);
-               for(i=0;i<data.data.length;i++){
+               for(var i=0;i<data.data.length;i++){
                    $("#lb").append("<li><img src='"+data.data[i].imgPath+"' style='height: 300px' ></li>");
                 }
             },

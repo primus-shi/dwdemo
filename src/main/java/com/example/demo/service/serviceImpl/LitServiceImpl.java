@@ -7,6 +7,7 @@ import com.example.demo.service.LitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 @Service
@@ -28,6 +29,23 @@ public class LitServiceImpl implements LitService {
         List<Lb> lits =lbMapper.getLb();
       return  Result.success("", 1,lits);
     }
-    // Placeholder return statement
+
+    @Override
+    public Map<String, Object> addLbt(Lb lb) {
+    if (lb != null) {
+            int result = lbMapper.addLbt(lb);
+            if (result > 0) {
+                return Result.success("添加成功", 1, Collections.singletonList(lb));
+            }
+        }
+        return Collections.emptyMap();
+    }
+
+    @Override
+    public Map<String, Object> deleteLbt(Integer id) {
+        lbMapper.deleteLbt(id);
+        return Collections.emptyMap();
+    }
+
 
 }
