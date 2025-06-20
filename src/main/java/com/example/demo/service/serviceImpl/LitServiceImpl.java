@@ -14,11 +14,20 @@ public class LitServiceImpl implements LitService {
     @Autowired
     LbMapper lbMapper;
     @Override
-    public Map<String, Object> getLit() {
-        List<Lb> lits = lbMapper.getLbList();
-        return Result.success("",1,lits);
+    public Map<String, Object> getLit(String page, String limit) {
+        int pages = Integer.parseInt(page);
+        int pageSize = Integer.parseInt(limit);
+        List<Lb> lits = lbMapper.getLbList((pages-1)*pageSize,pageSize );
+        int count = lbMapper.getAllLbCount();
+        return Result.success("",count,lits);
 
     }
-         // Placeholder return statement
+
+    @Override
+    public Map<String,Object> getLbList() {
+        List<Lb> lits =lbMapper.getLb();
+      return  Result.success("", 1,lits);
+    }
+    // Placeholder return statement
 
 }

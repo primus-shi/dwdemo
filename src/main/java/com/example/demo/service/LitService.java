@@ -1,6 +1,11 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Lb;
+
+import java.util.List;
 import java.util.Map;
 
-public interface LitService { public Map<String, Object> getLit();
+public interface LitService { public Map<String, Object> getLit(String page, String limit);
+
+    Map<String,Object> getLbList();
 }
